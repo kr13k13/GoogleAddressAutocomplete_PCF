@@ -47,8 +47,15 @@ export class AddressAutocomplete implements ComponentFramework.StandardControl<I
         document.head.appendChild(scriptNode);
 
         window.setTimeout(() => {
+            if (typeof (context.parameters.filterregion) === "undefined" ||
+            typeof (context.parameters.filterregion.raw) === "undefined") {
             this.autocomplete = new google.maps.places.Autocomplete(
                 this.searchBox, { types: ['geocode'] });
+            }
+			else{
+			this.autocomplete = new google.maps.places.Autocomplete(
+                this.searchBox, { types: ['geocode'],componentRestrictions: {country: context.parameters.filterregion.raw} });
+			}
 
             // When the user selects an address from the drop-down, populate the
             // address fields in the form.
